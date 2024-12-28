@@ -1,5 +1,11 @@
+import Banner from "../banner/Banner";
+
 const Home = () => {
-  return <div>This is home route</div>;
+  return (
+    <div className="">
+      <Banner />
+    </div>
+  );
 };
 
 export default Home;
