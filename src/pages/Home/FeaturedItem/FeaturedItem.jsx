@@ -14,7 +14,7 @@ const FeaturedItem = () => {
           featured={true}
           subTitle="Check it out"
         />
-        <div className="w-8/12 mx-auto grid grid-cols-2 gap-8 mt-10 text-white">
+        <div className="w-8/12 mx-auto space-y-5 sm:grid sm:space-y-0 grid-cols-2 gap-8 mt-10 text-white">
           <img src={img} alt="" />
           <div>
             <p>March 20, 2025</p>
