@@ -15,11 +15,11 @@ import SectionTitle from "../../../components/SectionTitle";
 
 const CategorySwiper = () => {
   return (
-    <section className="my-10 pb-5">
+    <section className="mt-5  sm:my-10 pb-5">
       <SectionTitle subTitle="From 11:00am to 10:00pm" title="Order online" />
       <Swiper
         slidesPerView={3}
-        spaceBetween={0}
+        spaceBetween={4}
         pagination={{
           clickable: true,
         }}
