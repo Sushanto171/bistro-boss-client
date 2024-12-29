@@ -33,7 +33,7 @@ const Banner = () => {
         t
         modules={[FreeMode, Navigation, Thumbs, Pagination, Autoplay]}
         className="mySwiper2"
-        pagination={true}
+        pagination={{ clickable: true }}
         autoplay={{
           delay: 4000,
           disableOnInteraction: false,
@@ -78,7 +78,7 @@ const Banner = () => {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper"
+        className="mySwiper !w-4/12 mx-auto"
       >
         <SwiperSlide>
           <div>
