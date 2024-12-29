@@ -13,7 +13,7 @@ const FromOurMenu = () => {
   }, []);
 
   return (
-    <section>
+    <section className="mb-8">
       <SectionTitle subTitle="Check it out" title="From our menu" />
       <div className="space-y-8 md:space-y-0 md:grid grid-cols-2 gap-8 my-10">
         {menus.map((menu) => (
@@ -33,6 +33,16 @@ const FromOurMenu = () => {
             <p className="text-yellow-400">${menu?.price}</p>
           </div>
         ))}
+      </div>
+      <div className="text-center">
+        <button className="btn btn-outline border-0 border-b-4 uppercase">
+          View full menu
+        </button>
+      </div>
+      <div className="h-36 bg-black my-8 flex justify-center items-center">
+        <p className="text-white text-2xl font-Cinzel cursor-pointer">
+          Call us: +88 1234568789
+        </p>
       </div>
     </section>
   );

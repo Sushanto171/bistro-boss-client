@@ -1,6 +1,7 @@
 import Banner from "../banner/Banner";
 import BistroBoss from "../bistroBoss/BistroBoss";
 import CategorySwiper from "../CategorySwiper/CategorySwiper";
+import ChefRecommends from "../ChefRecommends/ChefRecommends";
 import FromOurMenu from "../FromOurMenu/FromOurMenu";
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
       <CategorySwiper />
       <BistroBoss />
       <FromOurMenu />
+      <ChefRecommends />
     </div>
   );
 };
