@@ -30,7 +30,6 @@ const Banner = () => {
         spaceBetween={10}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
-        t
         modules={[FreeMode, Navigation, Thumbs, Pagination, Autoplay]}
         className="mySwiper2"
         pagination={{ clickable: true }}

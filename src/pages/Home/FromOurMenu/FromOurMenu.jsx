@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SectionTitle from "../../../components/SectionTitle";
+import useMenu from "../../../hooks/useMenu";
 
 const FromOurMenu = () => {
-  const [menus, setMenus] = useState([]);
-  useEffect(() => {
-    fetch("menu.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const popularData = data.filter((item) => item.category === "popular");
-        setMenus(popularData);
-      });
-  }, []);
+  const [menu] = useMenu();
+  const popularData = menu.filter((item) => item.category === "popular");
 
   return (
     <section className="mb-8">
-      <SectionTitle subTitle="Check it out" title="From our menu" />
+      <SectionTitle subTitle="Check it out" title=" our popular menu" />
       <div className="space-y-8 md:space-y-0 md:grid grid-cols-2 gap-8 my-10">
-        {menus.map((menu) => (
+        {popularData.map((menu) => (
           <div key={menu._id} className="flex justify-between gap-2">
             <div>
               <img
