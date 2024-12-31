@@ -15,10 +15,8 @@ const OurMenu = () => {
   const saladMenu = menu.filter((item) => item.category === "salad");
   const pizzaMenu = menu.filter((item) => item.category === "pizza");
   const soupMenu = menu.filter((item) => item.category === "soup");
-  const drinksMenu = menu.filter((item) => item.category === "drinks");
   const dessertMenu = menu.filter((item) => item.category === "dessert");
-  console.log({ saladImage, soupImage, pizzaImage, dessertImage });
-  console.log(dessertMenu);
+
   return (
     <div className="space-y-16">
       {useHelmet("Our-Menu")}
