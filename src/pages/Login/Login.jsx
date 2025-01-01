@@ -1,7 +1,24 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  LoadCanvasTemplate,
+  loadCaptchaEnginge,
+  validateCaptcha,
+} from "react-simple-captcha";
 import bgImage from "../../assets/others/authentication.png";
 import sideImage from "../../assets/others/authentication2.png";
 const Login = () => {
+  const [disable, setDisable] = useState(true);
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
+  const handleValidateCaptcha = (text) => {
+    if (validateCaptcha(text)) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  };
   return (
     <div
       className="hero w-full bg-base-200 min-h-screen bg-cover bg-no-repeat"
@@ -42,9 +59,23 @@ const Login = () => {
                   Forgot password?
                 </a>
               </label>
+              <div>
+                <LoadCanvasTemplate />
+                <input
+                  type="text"
+                  onBlur={(e) => handleValidateCaptcha(e.target.value)}
+                  placeholder="type here Captcha"
+                  className="input input-bordered w-full"
+                  name=""
+                  id=""
+                />
+              </div>
             </div>
             <div className="form-control mt-6">
-              <button className="btn bg-yellow-200 hover:bg-yellow-300">
+              <button
+                disabled={disable}
+                className="btn bg-yellow-200 hover:bg-yellow-300"
+              >
                 Login
               </button>
             </div>
