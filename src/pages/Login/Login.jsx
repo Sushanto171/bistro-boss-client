@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
@@ -7,8 +8,12 @@ import {
 } from "react-simple-captcha";
 import bgImage from "../../assets/others/authentication.png";
 import sideImage from "../../assets/others/authentication2.png";
+import useAuth from "../../hooks/useAuth";
+import LoginWithGoogle from "../shared/logInWithGoogle/LoginWithGoogle";
 const Login = () => {
   const [disable, setDisable] = useState(true);
+  const { logInUser } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -17,6 +22,21 @@ const Login = () => {
       setDisable(false);
     } else {
       setDisable(true);
+    }
+  };
+
+  const formHandle = async (e) => {
+    e.preventDefault();
+    try {
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+
+      await logInUser(email, password);
+      navigate("/");
+      toast.success("log in success");
+    } catch (error) {
+      console.log(error);
+      toast.success(error.message);
     }
   };
   return (
@@ -32,7 +52,7 @@ const Login = () => {
           <h1 className="text-center text-gray-800 font-semibold mt-8 text-4xl">
             Log in
           </h1>
-          <form className="card-body">
+          <form onSubmit={(e) => formHandle(e)} className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -40,6 +60,7 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="email"
+                name="email"
                 className="input input-bordered"
                 required
               />
@@ -50,6 +71,7 @@ const Login = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
                 required
@@ -64,10 +86,11 @@ const Login = () => {
                 <input
                   type="text"
                   onBlur={(e) => handleValidateCaptcha(e.target.value)}
-                  placeholder="type here Captcha"
+                  placeholder="type the Captcha here"
                   className="input input-bordered w-full"
                   name=""
                   id=""
+                  aria-level="input Captcha"
                 />
               </div>
             </div>
@@ -80,6 +103,7 @@ const Login = () => {
               </button>
             </div>
           </form>
+          <LoginWithGoogle />
           <p className="mb-8 px-9">
             <small>
               Don't heave an account?

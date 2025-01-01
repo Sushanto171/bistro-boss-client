@@ -1,6 +1,13 @@
+import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user, signOutUser } = useAuth();
+  const handleSignOut = () => {
+    signOutUser();
+    toast.success("Log out success");
+  };
   const navOptions = (
     <>
       <li>
@@ -18,12 +25,22 @@ const Navbar = () => {
       <li>
         <NavLink to="/shop">Our shop</NavLink>
       </li>
-      <li>
-        <NavLink to="/login">Log in</NavLink>
-      </li>
-      <li>
-        <NavLink to="/signup">Sign up</NavLink>
-      </li>
+      {user ? (
+        <>
+          <button onClick={handleSignOut} className="uppercase">
+            Log out
+          </button>
+        </>
+      ) : (
+        <>
+          <li>
+            <NavLink to="/login">Log in</NavLink>
+          </li>
+          <li>
+            <NavLink to="/signup">Sign up</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -76,11 +93,13 @@ const Navbar = () => {
             tabIndex={0}
             role="button"
             className="btn btn-ghost btn-circle avatar"
+            title={user ? user?.displayName : ""}
           >
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src={user ? user?.photoURL : ""}
+                referrerPolicy="no-referrer"
               />
             </div>
           </div>

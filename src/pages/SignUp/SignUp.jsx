@@ -1,19 +1,54 @@
+import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import bgImage from "../../assets/others/authentication.png";
 import sideImage from "../../assets/others/authentication2.png";
+import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "./../../components/LoadingSpinner";
 const SignUp = () => {
+  const [select, setSelect] = useState({});
+  const { loading, createUser, updateUser } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    const { photo } = data;
-    if (photo && photo[0]) {
+
+  const onSubmit = async (file) => {
+    const { photo } = file;
+    try {
+      if (photo && photo[0]) {
+        // 1. store img to imgbb
+        const formData = new FormData();
+        formData.append("image", photo[0]);
+        setSelect(photo[0]);
+        const { data } = await axios.post(
+          `https://api.imgbb.com/1/upload?expiration=600&key=${
+            import.meta.env.VITE_IMGBB_API_KEY
+          }`,
+          formData
+        );
+        console.log(data);
+        // user info
+        const email = file?.email;
+        const password = file?.password;
+        const name = file?.name;
+        const photoURL = data?.data?.display_url;
+
+        // 2. create user
+        const res = await createUser(email, password);
+        const update = await updateUser(name, photoURL);
+        navigate("/");
+        toast.success("Sign up success.");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
   return (
     <div
       className="hero w-full bg-base-200 min-h-screen bg-cover bg-no-repeat"
@@ -61,14 +96,23 @@ const SignUp = () => {
               )}
             </div>
             <div className="form-control">
+              <span className="label-text">Photo</span>
               <label className="label">
-                <span className="label-text">Photo</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  {...register("photo", {
+                    required: "Photo is required.",
+                  })}
+                  className=" cursor-pointer hidden w-full"
+                />
+                <span
+                  type="button "
+                  className="border cursor-pointer text-center w-full input input-bordered flex justify-center items-center"
+                >
+                  {select?.name ? select.name : "upload"}
+                </span>
               </label>
-              <input
-                type="file"
-                accept="img/*"
-                {...register("photo", { required: "Photo is required." })}
-              />
               {errors.photo && (
                 <p>
                   <small className="text-error">{errors.photo.message}</small>
@@ -87,7 +131,7 @@ const SignUp = () => {
                   required: "Password is required",
                   validate: {
                     minLength: (value) =>
-                      value.length > 6 ||
+                      value.length >= 6 ||
                       "Password must be at least 6 character or log.",
                     hasUppercase: (value) =>
                       /[A-Z]/.test(value) ||
@@ -148,7 +192,7 @@ const SignUp = () => {
             </div>
             <div className="form-control mt-6">
               <button className="btn bg-yellow-200 hover:bg-yellow-300">
-                Sign up
+                {loading ? <LoadingSpinner /> : "Sign up"}
               </button>
             </div>
           </form>
