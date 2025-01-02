@@ -1,11 +1,15 @@
 import toast from "react-hot-toast";
+import { FaCartShopping } from "react-icons/fa6";
 import { Link, NavLink } from "react-router-dom";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
+import useCart from "../../../hooks/useCart";
 
 const Navbar = () => {
   const { user, signOutUser, loading } = useAuth();
-  console.log(user);
+
+  const { carts } = useCart();
+
   const handleSignOut = () => {
     signOutUser();
     toast.success("Log out success");
@@ -29,9 +33,9 @@ const Navbar = () => {
       </li>
       {user ? (
         <>
-          <button className="btn">
-            Cart
-            <div className="badge">+0</div>
+          <button className="btn btn-sm">
+            <FaCartShopping />
+            <div className="badge">+{carts.length}</div>
           </button>
           <button onClick={handleSignOut} className="uppercase">
             Log out
