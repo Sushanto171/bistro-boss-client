@@ -23,7 +23,7 @@ const Navbar = () => {
         <NavLink to="/">Contact us</NavLink>
       </li>
       <li>
-        <NavLink to="/">Dashboard</NavLink>
+        <NavLink to="dashboard">Dashboard</NavLink>
       </li>
       <li>
         <NavLink to="/menu">Our menu</NavLink>
@@ -33,10 +33,12 @@ const Navbar = () => {
       </li>
       {user ? (
         <>
-          <button className="btn btn-sm">
-            <FaCartShopping />
-            <div className="badge">+{carts.length}</div>
-          </button>
+          <Link to="/dashboard/carts">
+            <button className="btn btn-sm">
+              <FaCartShopping />
+              <div className="badge">+{carts.length}</div>
+            </button>
+          </Link>
           <button onClick={handleSignOut} className="uppercase">
             Log out
           </button>
