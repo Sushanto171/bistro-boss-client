@@ -9,14 +9,17 @@ import "swiper/css/zoom";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SectionTitle from "../../../components/SectionTitle";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const ClientsSays = () => {
+  const axiosSecure = useAxiosSecure();
   const [testimonials, setTestimonials] = useState([]);
   useEffect(() => {
-    fetch("reviews.json")
-      .then((res) => res.json())
-      .then((data) => setTestimonials(data));
+    fetchReviews();
   }, []);
-
+  const fetchReviews = async () => {
+    const { data } = await axiosSecure.get("/reviews");
+    setTestimonials(data?.data);
+  };
   return (
     <section className="my-8">
       <SectionTitle subTitle={"What our Clients say"} title={"testimonials"} />

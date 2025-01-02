@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
@@ -8,11 +8,13 @@ import {
 } from "react-simple-captcha";
 import bgImage from "../../assets/others/authentication.png";
 import sideImage from "../../assets/others/authentication2.png";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
 import LoginWithGoogle from "../shared/logInWithGoogle/LoginWithGoogle";
 const Login = () => {
   const [disable, setDisable] = useState(true);
-  const { logInUser } = useAuth();
+  const { logInUser, loading, setLoading } = useAuth();
+  const { state } = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -32,10 +34,10 @@ const Login = () => {
       const password = e.target.password.value;
 
       await logInUser(email, password);
-      navigate("/");
+      navigate(`${state?.form ? state?.form : "/"}`);
       toast.success("log in success");
     } catch (error) {
-      console.log(error);
+      setLoading(false);
       toast.success(error.message);
     }
   };
@@ -99,7 +101,7 @@ const Login = () => {
                 disabled={disable}
                 className="btn bg-yellow-200 hover:bg-yellow-300"
               >
-                Login
+                {loading ? <LoadingSpinner /> : "Login"}
               </button>
             </div>
           </form>

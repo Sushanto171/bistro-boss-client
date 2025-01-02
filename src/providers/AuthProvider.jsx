@@ -25,7 +25,6 @@ const AuthProvider = ({ children }) => {
       unSubscribe();
     };
   }, []);
-
   // 1. create user
   const createUser = (email, password) => {
     setLoading(true);
@@ -58,6 +57,7 @@ const AuthProvider = ({ children }) => {
     updateUser,
     signOutUser,
     logInUser,
+    setLoading,
   };
 
   return (
