@@ -6,11 +6,15 @@ import { Link, useNavigate } from "react-router-dom";
 import bgImage from "../../assets/others/authentication.png";
 import sideImage from "../../assets/others/authentication2.png";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { createUserToDB } from "../../utilis/utilis";
+import LoginWithGoogle from "../shared/logInWithGoogle/LoginWithGoogle";
 import LoadingSpinner from "./../../components/LoadingSpinner";
 const SignUp = () => {
   const [select, setSelect] = useState({});
-  const { loading, createUser, updateUser } = useAuth();
+  const { loading, createUser, setLoading, updateUser } = useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -31,7 +35,6 @@ const SignUp = () => {
           }`,
           formData
         );
-        console.log(data);
         // user info
         const email = file?.email;
         const password = file?.password;
@@ -39,13 +42,22 @@ const SignUp = () => {
         const photoURL = data?.data?.display_url;
 
         // 2. create user
-        const res = await createUser(email, password);
-        const update = await updateUser(name, photoURL);
-        navigate("/");
-        toast.success("Sign up success.");
+        const user = await createUser(email, password);
+        await updateUser(name, photoURL);
+        const userData = {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+          role: "user",
+        };
+        // 3. create user to db
+        const id = createUserToDB(userData, axiosPublic);
+        id && navigate("/");
+        id && toast.success("Sign up success.");
       }
     } catch (error) {
-      console.log(error);
+      toast.success(error.message);
+      setLoading(false);
     }
   };
 
@@ -196,6 +208,7 @@ const SignUp = () => {
               </button>
             </div>
           </form>
+          <LoginWithGoogle />
           <p className="mb-8 px-9">
             <small>
               Already heave an account?

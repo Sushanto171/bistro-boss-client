@@ -10,29 +10,44 @@ const AdminMenu = () => {
     <div className=" mt-16">
       <ul className=" flex flex-col gap-4  font-semibold">
         <li>
-          <NavLink to="/" className={"flex items-center gap-1"}>
+          <NavLink
+            to="/dashboard/admin-home"
+            className={"flex items-center gap-1"}
+          >
             <FaHome /> Admin Home
           </NavLink>
         </li>
         <li>
-          <NavLink to="/" className={"flex items-center gap-1"}>
-            <FaAd /> Add Items
+          <NavLink
+            to="/dashboard/add-item"
+            className={"flex items-center gap-1"}
+          >
+            <FaAd /> Add Item
           </NavLink>
         </li>
         <li>
-          <NavLink to="/" className={"flex items-center gap-1"}>
+          <NavLink
+            to="/dashboard/manage-items"
+            className={"flex items-center gap-1"}
+          >
             <MdAddShoppingCart /> Mange Items
           </NavLink>
         </li>
         <li>
-          <NavLink to="/" className={"flex items-center gap-1"}>
+          <NavLink
+            to="/dashboard/manage-bookings"
+            className={"flex items-center gap-1"}
+          >
             <TbBrandBooking />
             Manage Bookings
           </NavLink>
         </li>
         <li>
-          <NavLink to="/" className={"flex items-center gap-1"}>
-            <FaUsersGear /> ALl users
+          <NavLink
+            to="/dashboard/all-users"
+            className={"flex items-center gap-1"}
+          >
+            <FaUsersGear /> All users
           </NavLink>
         </li>
       </ul>
