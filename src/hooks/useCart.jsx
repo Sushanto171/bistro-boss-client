@@ -11,7 +11,6 @@ const useCart = () => {
       return data?.data;
     }
   };
-
   const {
     data: carts = [],
     refetch,
@@ -19,7 +18,7 @@ const useCart = () => {
     error,
     isError,
   } = useQuery({
-    queryKey: ["carts"],
+    queryKey: ["carts", user?.email],
     queryFn: fetchCarts,
     enabled: !!user?.email,
   });
