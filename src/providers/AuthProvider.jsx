@@ -8,17 +8,26 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 import { auth } from "./../firebase/firebase.init";
 export const AuthContext = createContext();
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const axiosPublic = useAxiosPublic();
   //   0. observe
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       console.log("currentUser--->", currentUser);
+      if (currentUser) {
+        const { data } = await axiosPublic.post("/jwt", {
+          email: currentUser.email,
+        });
+        localStorage.setItem("token", data.data);
+      } else {
+        localStorage.clear();
+      }
       setUser(currentUser);
       setLoading(false);
     });

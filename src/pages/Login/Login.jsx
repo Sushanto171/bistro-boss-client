@@ -15,7 +15,6 @@ const Login = () => {
   const [disable, setDisable] = useState(true);
   const { logInUser, loading, setLoading } = useAuth();
   const { state } = useLocation();
-  console.log(state);
   const navigate = useNavigate();
   useEffect(() => {
     loadCaptchaEnginge(6);

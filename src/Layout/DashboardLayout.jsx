@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import useAdmin from "../hooks/useAdmin";
 import AdminMenu from "../pages/Dashboard/admin/AdminMenu";
 import UserMenu from "../pages/Dashboard/user/UserMenu";
 
 const DashboardLayout = () => {
-  const [role, setRole] = useState("admin");
+  const [role, isLoading] = useAdmin();
   return (
     <div className="flex ">
       <div className="w-52 bg-yellow-600 font-Cinzel p-4 h-screen overflow-y-auto sticky top-0 ">
@@ -19,7 +19,7 @@ const DashboardLayout = () => {
               </span>
             </Link>
           </div>
-          {role === "admin" ? (
+          {role ? (
             <>
               {/* admin menu */}
               <AdminMenu />

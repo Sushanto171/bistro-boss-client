@@ -30,7 +30,7 @@ const SignUp = () => {
         formData.append("image", photo[0]);
         setSelect(photo[0]);
         const { data } = await axios.post(
-          `https://api.imgbb.com/1/upload?expiration=600&key=${
+          `https://api.imgbb.com/1/upload?key=${
             import.meta.env.VITE_IMGBB_API_KEY
           }`,
           formData

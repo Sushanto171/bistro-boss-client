@@ -9,15 +9,15 @@ import "swiper/css/zoom";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SectionTitle from "../../../components/SectionTitle";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 const ClientsSays = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const [testimonials, setTestimonials] = useState([]);
   useEffect(() => {
     fetchReviews();
   }, []);
   const fetchReviews = async () => {
-    const { data } = await axiosSecure.get("/reviews");
+    const { data } = await axiosPublic("/reviews");
     setTestimonials(data?.data);
   };
   return (

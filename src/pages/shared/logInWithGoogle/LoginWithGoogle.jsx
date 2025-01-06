@@ -19,10 +19,9 @@ const LoginWithGoogle = () => {
         photo: user.photoURL,
         role: "user",
       };
-      console.log(userData);
+
       // 3. create user to db
       const id = await createUserToDB(userData, axiosPublic);
-      console.log(id);
       id && toast.success("log in success");
       id && navigate(`${state ? state.form : "/"}`);
     } catch (error) {

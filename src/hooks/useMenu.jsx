@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import useAxiosSecure from "./useAxiosSecure";
+import useAxiosPublic from "./useAxiosPublic";
 
 const useMenu = () => {
   const [menu, setMenu] = useState([]);
   const [loading, setLoading] = useState(false);
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   useEffect(() => {
     fetchMenu();
   }, []);
   const fetchMenu = async () => {
     try {
       setLoading(true);
-      const { data } = await axiosSecure.get("/menu");
+      const { data } = await axiosPublic.get("/menu");
       setMenu(data.data);
     } catch (error) {
       console.log(error);

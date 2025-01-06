@@ -2,14 +2,14 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
-import useAxiosSecure from "./../../../hooks/useAxiosSecure";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const TabCard = ({ item }) => {
   const { image, price, name, recipe, _id } = item || {};
   const { user } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const handelAddCart = async () => {
     try {
       if (!user) {
@@ -25,7 +25,7 @@ const TabCard = ({ item }) => {
         name: user.displayName,
       };
 
-      const { data } = await axiosSecure.post("/carts", cartData);
+      const { data } = await axiosPublic.post("/carts", cartData);
       if (data?.data?.insertedId) toast.success(data.message);
     } catch (error) {
       console.log(error);
