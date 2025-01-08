@@ -20,7 +20,6 @@ const useCart = () => {
   } = useQuery({
     queryKey: ["carts", user?.email],
     queryFn: fetchCarts,
-    enabled: !!user?.email,
   });
 
   return { carts, refetch, isLoading, error, isError };

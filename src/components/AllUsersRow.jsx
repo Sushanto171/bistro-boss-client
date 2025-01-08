@@ -47,7 +47,6 @@ const AllUsersRow = ({ user, i, handleUpdate, handleUserDelete }) => {
           </div>
           <div>
             <div className="font-bold">{user?.name}</div>
-            <div className="text-sm opacity-50">United States</div>
           </div>
         </div>
       </td>

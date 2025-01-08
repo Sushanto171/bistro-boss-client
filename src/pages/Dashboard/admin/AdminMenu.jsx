@@ -30,7 +30,7 @@ const AdminMenu = () => {
             to="/dashboard/manage-items"
             className={"flex items-center gap-1"}
           >
-            <MdAddShoppingCart /> Mange Items
+            <MdAddShoppingCart /> Manage Items
           </NavLink>
         </li>
         <li>

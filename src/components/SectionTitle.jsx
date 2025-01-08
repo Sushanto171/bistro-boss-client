@@ -1,6 +1,6 @@
 const SectionTitle = ({ title, subTitle, featured }) => {
   return (
-    <div className="text-center w-8/12 md:w-4/12 mx-auto">
+    <div className="text-center w-8/12  max-w-fit mx-auto">
       <p className="text-sm md:text-base text-yellow-400 italic">
         ---{subTitle}---
       </p>

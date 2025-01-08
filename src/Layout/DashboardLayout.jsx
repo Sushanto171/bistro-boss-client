@@ -32,7 +32,7 @@ const DashboardLayout = () => {
           )}
         </aside>
       </div>
-      <div className="flex-1 h-[2000px] overflow-y-auto">
+      <div className="flex-1  p-10">
         <Outlet />
       </div>
     </div>

@@ -13,12 +13,20 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 const ClientsSays = () => {
   const axiosPublic = useAxiosPublic();
   const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchReviews();
   }, []);
   const fetchReviews = async () => {
-    const { data } = await axiosPublic("/reviews");
-    setTestimonials(data?.data);
+    try {
+      setLoading(true);
+      const { data } = await axiosPublic("/reviews");
+      setTestimonials(data?.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <section className="my-8">

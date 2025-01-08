@@ -34,7 +34,6 @@ const useAxiosSecure = () => {
         await signOutUser();
         // navigate to login page
         navigate("login");
-        return;
       }
       return Promise.reject(error);
     }

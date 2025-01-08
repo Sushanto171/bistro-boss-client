@@ -3,9 +3,11 @@ import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useCart from "../../../hooks/useCart";
 
 const TabCard = ({ item }) => {
   const { image, price, name, recipe, _id } = item || {};
+  const { refetch } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -26,7 +28,10 @@ const TabCard = ({ item }) => {
       };
 
       const { data } = await axiosPublic.post("/carts", cartData);
-      if (data?.data?.insertedId) toast.success(data.message);
+      if (data?.data?.insertedId) {
+        refetch();
+        toast.success(data.message);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +46,6 @@ const TabCard = ({ item }) => {
         />
       </figure>
       <p className="bg-black text-white absolute top-8 right-3 rounded px-2">
-        {" "}
         ${price}
       </p>
       <div className="card-body items-center text-center">

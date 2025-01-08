@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import AllUsersRow from "../../../components/allUsersRow";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import SectionTitle from "../../../components/SectionTitle";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -55,10 +56,11 @@ const AllUsers = () => {
   if (isLoading || userLoading || loading) return <LoadingSpinner />;
   return (
     <div>
+      <SectionTitle title={"Manage all users"} subTitle={"How Many"} />
       <div className="overflow-x-auto">
-        <table className="table">
+        <table className="table rounded-md overflow-hidden">
           {/* head */}
-          <thead>
+          <thead className="bg-yellow-600 text-white ">
             <tr>
               <th>#</th>
               <th>Name</th>
