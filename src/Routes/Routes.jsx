@@ -4,6 +4,7 @@ import MainLayout from "../Layout/MainLayout";
 import AddItem from "../pages/Dashboard/admin/AddItem";
 import ManageBookings from "../pages/Dashboard/admin/ManageBookings";
 import MyCarts from "../pages/Dashboard/user/MyCarts";
+import Payment from "../pages/Dashboard/user/Payment";
 import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Login/Login";
 import OurMenu from "../pages/ourMenu/ourMenu/OurMenu";
@@ -152,6 +153,14 @@ export const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyBooking />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/payment",
+        element: (
+          <PrivateRoute>
+            <Payment />
           </PrivateRoute>
         ),
       },

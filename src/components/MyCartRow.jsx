@@ -1,8 +1,16 @@
 import React from "react";
+import toast from "react-hot-toast";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
-const MyCartRow = ({ cart, i }) => {
-  console.log(cart);
-  console.log(cart);
+const MyCartRow = ({ cart, i, refetch }) => {
+  const axiosPublic = useAxiosPublic();
+  const handleDelete = async (id) => {
+    const { data } = await axiosPublic.delete(`/cart/${id}`);
+    if (data?.data?.deletedCount > 0) {
+      toast.success(data?.message);
+    }
+    refetch();
+  };
   return (
     <tr>
       <th>{i + 1}</th>
@@ -16,7 +24,12 @@ const MyCartRow = ({ cart, i }) => {
       <td>{cart?.name}</td>
       <td>{cart?.price}</td>
       <th>
-        <button className="btn  btn-xs btn-error text-white">Delete</button>
+        <button
+          onClick={() => handleDelete(cart?._id)}
+          className="btn  btn-xs btn-error text-white"
+        >
+          Delete
+        </button>
       </th>
     </tr>
   );
