@@ -1,13 +1,28 @@
 import clsx from "clsx";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import toast from "react-hot-toast";
 import { ImSpoonKnife } from "react-icons/im";
 import * as Yup from "yup";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { addImageImgBB } from "../../../utilis/utilis";
 import SectionTitle from "./../../../components/SectionTitle";
 
 export default function AddItem() {
-  const handleFrom = (value) => {
-    if (value) {
+  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
+  const handleFrom = async (value) => {
+    try {
+      if (value?.image) {
+        const imgData = await addImageImgBB(value.image, axiosPublic);
+        value.image = imgData?.data?.url;
+        // item menu added db
+        const { data } = await axiosSecure.post("/menu", value);
+        toast.success(data.message);
+      }
       console.log(value);
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -41,8 +56,8 @@ export default function AddItem() {
               (value) => value && value.size <= 1048576
             ),
         })}
-        onSubmit={(values) => {
-          handleFrom(values);
+        onSubmit={(values, { resetForm }) => {
+          handleFrom(values).then(() => resetForm());
         }}
       >
         {({ setFieldValue }) => (
@@ -71,7 +86,6 @@ export default function AddItem() {
                   <label className="text-sm/6 font-medium ">Category*</label>
                   <Field
                     as="select"
-                    defaultValue={""}
                     name="category"
                     className={clsx(
                       "mt-3 w-full block flex-1 rounded-lg border-none py-2 px-3 text-sm/6 ",

@@ -8,6 +8,7 @@ const useMenu = () => {
     isLoading,
     isError,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["menu"],
     queryFn: async () => {
@@ -15,7 +16,7 @@ const useMenu = () => {
       return data?.data;
     },
   });
-  return [menu, isLoading, isError, error];
+  return [menu, isLoading, isError, error, refetch];
 };
 
 export default useMenu;

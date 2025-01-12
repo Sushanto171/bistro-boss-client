@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -7,7 +6,7 @@ import bgImage from "../../assets/others/authentication.png";
 import sideImage from "../../assets/others/authentication2.png";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import { createUserToDB } from "../../utilis/utilis";
+import { addImageImgBB, createUserToDB } from "../../utilis/utilis";
 import LoginWithGoogle from "../shared/logInWithGoogle/LoginWithGoogle";
 import LoadingSpinner from "./../../components/LoadingSpinner";
 const SignUp = () => {
@@ -26,20 +25,12 @@ const SignUp = () => {
     try {
       if (photo && photo[0]) {
         // 1. store img to imgbb
-        const formData = new FormData();
-        formData.append("image", photo[0]);
-        setSelect(photo[0]);
-        const { data } = await axios.post(
-          `https://api.imgbb.com/1/upload?key=${
-            import.meta.env.VITE_IMGBB_API_KEY
-          }`,
-          formData
-        );
+        const { data } = await addImageImgBB(photo[0], axiosPublic);
         // user info
         const email = file?.email;
         const password = file?.password;
         const name = file?.name;
-        const photoURL = data?.data?.display_url;
+        const photoURL = data?.display_url;
 
         // 2. create user
         const user = await createUser(email, password);

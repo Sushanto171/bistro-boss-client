@@ -24,7 +24,7 @@ const TabCard = ({ item }) => {
         name,
         itemId: _id,
         email: user.email,
-        name: user.displayName,
+        user_name: user.displayName,
       };
 
       const { data } = await axiosPublic.post("/carts", cartData);

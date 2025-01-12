@@ -4,7 +4,7 @@ import useMenu from "../../../hooks/useMenu";
 import ManageItemsRow from "./../../../components/ManageItemsRow";
 
 const ManageItems = () => {
-  const [menu, isLoading] = useMenu();
+  const [menu, isLoading, , , refetch] = useMenu();
   console.log(menu);
 
   if (isLoading) return <LoadingSpinner />;
@@ -28,7 +28,12 @@ const ManageItems = () => {
           </thead>
           <tbody>
             {menu.map((item, i) => (
-              <ManageItemsRow key={item._id} {...item} i={i} />
+              <ManageItemsRow
+                key={item._id}
+                refetch={refetch}
+                {...item}
+                i={i}
+              />
             ))}
           </tbody>
         </table>
