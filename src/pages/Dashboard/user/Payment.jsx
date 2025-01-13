@@ -1,9 +1,12 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import useCart from "../../../hooks/useCart";
 import CheckOutForm from "./CheckOutForm";
 const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHABLE_KEY);
 const Payment = () => {
-  console.log(stripePromise);
+  const { carts } = useCart();
+  const totalPrice = carts.reduce((total, item) => total + item.price, 0);
+
   return (
     <div className="flex items-center justify-center">
       <div>
@@ -11,7 +14,7 @@ const Payment = () => {
           Payment
         </h2>
         <Elements stripe={stripePromise}>
-          <CheckOutForm />
+          <CheckOutForm totalPrice={totalPrice} />
         </Elements>
       </div>
     </div>

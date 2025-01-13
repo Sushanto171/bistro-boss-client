@@ -1,10 +1,32 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "./../../../hooks/useAxiosSecure";
 
-const CheckOutForm = () => {
+const CheckOutForm = ({ totalPrice }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState(null);
+  const axiosSecure = useAxiosSecure();
+  const [transactionId, setTransactionID] = useState("");
+  const [clientSecretKey, setClientSecretKey] = useState("");
+  const { user } = useAuth();
+
+  useEffect(() => {
+    fetchIntent();
+  }, [totalPrice]);
+  const fetchIntent = async () => {
+    try {
+      const { data } = await axiosSecure.post("/create-confirm-intent", {
+        price: totalPrice,
+      });
+
+      setClientSecretKey(data.clientSecret);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) {
@@ -27,6 +49,27 @@ const CheckOutForm = () => {
     } else {
       console.log("paymentMethod", paymentMethod);
       setErrorMessage("");
+    }
+
+    // confirm payment
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecretKey, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: user?.displayName || "anonymous",
+            email: user?.email,
+          },
+        },
+      });
+
+    if (confirmError) {
+      console.log("confirmError", confirmError);
+    } else {
+      console.log("paymentIntent", paymentIntent);
+      if (paymentIntent.status === "succeeded") {
+        setTransactionID(paymentIntent.id);
+      }
     }
   };
 
@@ -52,11 +95,14 @@ const CheckOutForm = () => {
         <button
           className="btn my-5  btn-primary text-white"
           type="submit"
-          disabled={!stripe}
+          disabled={!stripe || !clientSecretKey}
         >
           Pay
         </button>
         <p className="text-sm text-error">{errorMessage}</p>
+        {transactionId && (
+          <p className="text-sm text-success">transactionID: {transactionId}</p>
+        )}
       </form>
     </div>
   );
