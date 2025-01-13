@@ -4,8 +4,10 @@ import { GrDocumentStore } from "react-icons/gr";
 import { MdShoppingCart } from "react-icons/md";
 import { RiSecurePaymentFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import useCart from "../../../hooks/useCart";
 
 const UserMenu = () => {
+  const { carts } = useCart();
   return (
     <div className=" mt-16">
       <ul className="flex flex-col gap-4 font-semibold">
@@ -37,7 +39,7 @@ const UserMenu = () => {
         <li>
           <NavLink to="/dashboard/carts" className={"flex items-center gap-1"}>
             <MdShoppingCart />
-            My Cart
+            My Cart ({carts.length})
           </NavLink>
         </li>
         <li>

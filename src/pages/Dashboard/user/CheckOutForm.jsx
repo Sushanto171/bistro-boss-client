@@ -1,6 +1,9 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import useCart from "../../../hooks/useCart";
 import useAxiosSecure from "./../../../hooks/useAxiosSecure";
 
 const CheckOutForm = ({ totalPrice }) => {
@@ -11,6 +14,8 @@ const CheckOutForm = ({ totalPrice }) => {
   const [transactionId, setTransactionID] = useState("");
   const [clientSecretKey, setClientSecretKey] = useState("");
   const { user } = useAuth();
+  const { carts } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchIntent();
@@ -71,6 +76,21 @@ const CheckOutForm = ({ totalPrice }) => {
         setTransactionID(paymentIntent.id);
       }
     }
+    // save payment db
+    const payment = {
+      email: user.email,
+      price: totalPrice,
+      transactionId: paymentIntent.id,
+      date: new Date(),
+      cartsId: carts.map((cart) => cart._id),
+      menusId: carts.map((cart) => cart.itemId),
+      status: "pending",
+    };
+
+    const { data } = await axiosSecure.post("/payment", payment);
+    data && toast.success("Payment success");
+    // redirect
+    navigate("/dashboard/payment-history");
   };
 
   return (

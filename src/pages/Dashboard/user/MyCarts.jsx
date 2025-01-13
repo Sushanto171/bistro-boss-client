@@ -18,14 +18,13 @@ const MyCarts = () => {
         <div className="flex items-center font-Cinzel justify-between p-2 text-lg font-semibold">
           <p>Total Orders: {carts.length}</p>
           <p>Total Price: {totalPrice.toFixed(2)}$</p>
-          <button disabled={!carts.length} className=" ">
-            <Link
-              className="btn bg-yellow-600 text-white"
-              to="/dashboard/payment"
-            >
-              Pay
-            </Link>
-          </button>
+          <Link
+            disabled={!carts.length}
+            className="btn bg-yellow-600 text-white"
+            to="/dashboard/payment"
+          >
+            <button className=" ">Pay</button>
+          </Link>
         </div>
         <div className="overflow-x-auto ">
           <table className="table overflow-hidden">
